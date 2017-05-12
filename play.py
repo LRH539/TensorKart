@@ -24,22 +24,21 @@ class Actor(object):
         self.real_controller = XboxController()
 
     def get_action(self, obs):
-
+        
         ### determine manual override
         manual_override = self.real_controller.LeftBumper == 1
 
-        if not manual_override:
+        # -- Automatic Joystick
+        ## Look
+        vec = resize_image(obs)
 
-            ## Look
-            vec = resize_image(obs)
+        ## Think
+        joystick = \
+            model.y.eval(session=self.sess, feed_dict={model.x: [vec], model.keep_prob: 1.0})[0]
 
-            ## Think
-            joystick = \
-              model.y.eval(session=self.sess, feed_dict={model.x: [vec], model.keep_prob: 1.0})[0]
-
-        else:
-            joystick = self.real_controller.read()
-            joystick[1] *= -1 # flip y (this is in the config when it runs normally)
+        # -- Real Joystick
+        joystick_real = self.real_controller.read()
+        joystick_real[1] *= -1 # flip y (this is in the config when it runs normally)
 
 
         ## Act
@@ -53,13 +52,22 @@ class Actor(object):
             int(round(joystick[4])),
         ]
 
+        output_real = [
+            int(joystick_real[0] * 80),
+            int(joystick_real[1] * 80),
+            int(round(joystick_real[2])),
+            int(round(joystick_real[3])),
+            int(round(joystick_real[4])),
+        ]
+
+
         ### print to console
         if manual_override:
             cprint("Manual: " + str(output), 'yellow')
         else:
             cprint("AI: " + str(output), 'green')
 
-        return output
+        return [output, output_real]
 
 
 if __name__ == '__main__':
