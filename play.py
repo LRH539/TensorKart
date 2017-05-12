@@ -40,7 +40,6 @@ class Actor(object):
         joystick_real = self.real_controller.read()
         joystick_real[1] *= -1 # flip y (this is in the config when it runs normally)
 
-
         ## Act
 
         ### calibration
@@ -50,6 +49,7 @@ class Actor(object):
             int(round(joystick[2])),
             int(round(joystick[3])),
             int(round(joystick[4])),
+            0 
         ]
 
         output_real = [
@@ -58,14 +58,13 @@ class Actor(object):
             int(round(joystick_real[2])),
             int(round(joystick_real[3])),
             int(round(joystick_real[4])),
+            int(self.real_controller.LeftBumper)
         ]
 
 
         ### print to console
-        if manual_override:
-            cprint("Manual: " + str(output), 'yellow')
-        else:
-            cprint("AI: " + str(output), 'green')
+        cprint("Player: " + str(output_real), 'yellow')
+        cprint("AI: " + str(output), 'green')
 
         return [output, output_real]
 
