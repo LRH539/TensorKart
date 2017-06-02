@@ -40,11 +40,11 @@ def resize_image(img):
 
 class Screenshot(object):
     SRC_W = 640
-    SRC_H = 480
+    SRC_H = 240
     SRC_D = 3
 
     OFFSET_X = 0
-    OFFSET_Y = 0
+    OFFSET_Y = 20
 
     IMG_W = 200
     IMG_H = 66

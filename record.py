@@ -48,7 +48,7 @@ class MainWindow(wx.Frame):
         self.record_panel = wx.Panel(self)
 
         # Images
-        img = wx.Image(320,240)
+        img = wx.Image(320,120)
         self.image_widget = wx.StaticBitmap(self.img_panel, wx.ID_ANY, wx.Bitmap(img))
 
         # Joystick
@@ -132,7 +132,7 @@ class MainWindow(wx.Frame):
     def draw(self):
         # Image
         img = self.bmp.ConvertToImage()
-        img = img.Rescale(320,240)
+        img = img.Rescale(320,120)
         self.image_widget.SetBitmap( img.ConvertToBitmap() )
 
         # Joystick
