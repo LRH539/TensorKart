@@ -44,7 +44,7 @@ class Screenshot(object):
     SRC_D = 3
 
     OFFSET_X = 0
-    OFFSET_Y = 20
+    OFFSET_Y = 25
 
     IMG_W = 200
     IMG_H = 66
