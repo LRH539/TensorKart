@@ -89,6 +89,7 @@ class MainWindow(wx.Frame):
 
     def on_timer(self, event):
         self.poll()
+        print(self.controller_data)        
 
         # stop drawing if recording to avoid slow downs
         if self.recording == False:
