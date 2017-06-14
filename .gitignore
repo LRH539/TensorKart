@@ -1,4 +1,5 @@
 samples/**
+newsamples/**
 MarioKart64.z64
 *.pyc
 *.npy

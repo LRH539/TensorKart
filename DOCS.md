@@ -19,7 +19,7 @@ make all
 sudo make install
 ```
 
-###Manually install wxPython from 
+### Manually install wxPython from 
 
 [link...](https://wxpython.org/Phoenix/snapshot-builds/linux/gtk3/debian-8/)
 
@@ -29,7 +29,7 @@ sudo make install
 - remove *wxPython* from the requirements of the packages. `gym_mupen64plus/setup.py` and 
 `TensorKart/requirements.txt`
 
-###Install pip dependencies
+### Install pip dependencies
 
 - do one of the following:
 - tensorflow GPU requires Cuda
@@ -49,7 +49,7 @@ cd ../gym_mupen64plus
 pip install -e .
 ```
 
-###Other dependencies
+### Other dependencies
 
 The following dependencies cannot be installed with pip. Use your package manager. For archlinux for example
 
@@ -69,3 +69,11 @@ The Marto Kart 64 is not provided with the project. Aquire it and paste it in `m
 
 Training takes a long time. A Lenovo W520 with Quadro 1000M doesn't support tensorflow's required version of CUDA, so we have to use the CPU to train. For example training two samples takes ~10 Minutes. Training with 7 samples takes ~100 Minutes
 
+
+### Decisions and stuff
+
+*Update 14/06* - Training doesn't seem to be going so well, and there are a couple of suspected reasons.
+
+- Recording and playing screens are not alligned and are off by one or two pixels. (looks like KDE title bar heigth is 24 pixels, so in the configs off Mario Kart I set `OFFSET_Y=25` in `config.yml` and `utils.py`
+- Might be that the recording script needs to take screenshots and register input more frequetly. I've doubled the `RATE` variable in `record.py`. Training will take longer, but probably will be better. Testing right now...
+- May be a different way that the recorder and the player are resizing the screenshots. I have to go look at the source code, but it's difficult to follow it.   
