@@ -13,7 +13,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigCanvas
 from utils import Screenshot, XboxController
 
 IDLE_SAMPLE_RATE = 1500
-SAMPLE_RATE = 100
+SAMPLE_RATE = 150
 
 class MainWindow(wx.Frame):
     """ Main frame of the application
