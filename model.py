@@ -14,6 +14,9 @@ def bias_variable(shape):
 def conv2d(x, W, stride):
   return tf.nn.conv2d(x, W, strides=[1, stride, stride, 1], padding='VALID')
 
+def max_pool2x2(x):
+    return tf.nn.max_pool(x, ksize=[1,2,2,1], strides=[1,2,2,1], padding='SAME')
+
 x = tf.placeholder(tf.float32, shape=[None, Screenshot.IMG_H, Screenshot.IMG_W, Screenshot.IMG_D])
 y_ = tf.placeholder(tf.float32, shape=[None, OUT_SHAPE])
 
@@ -24,12 +27,14 @@ W_conv1 = weight_variable([5, 5, 3, 24])
 b_conv1 = bias_variable([24])
 
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1, 2) + b_conv1)
+#h_pool1 = max_pool2x2(h_conv1)
 
 #second convolutional layer
 W_conv2 = weight_variable([5, 5, 24, 36])
 b_conv2 = bias_variable([36])
 
 h_conv2 = tf.nn.relu(conv2d(h_conv1, W_conv2, 2) + b_conv2)
+h_pool2 = max_pool2x2(h_conv2)
 
 #third convolutional layer
 W_conv3 = weight_variable([5, 5, 36, 148])
@@ -37,11 +42,13 @@ b_conv3 = bias_variable([148])
 
 h_conv3 = tf.nn.relu(conv2d(h_conv2, W_conv3, 2) + b_conv3)
 
+
 #fourth convolutional layer
 W_conv4 = weight_variable([3, 3, 148, 64])
 b_conv4 = bias_variable([64])
 
 h_conv4 = tf.nn.relu(conv2d(h_conv3, W_conv4, 1) + b_conv4)
+#h_pool4 = max_pool2x2(h_conv4)
 
 #fifth convolutional layer
 W_conv5 = weight_variable([3, 3, 64, 64])
@@ -49,7 +56,10 @@ b_conv5 = bias_variable([64])
 
 h_conv5 = tf.nn.relu(conv2d(h_conv4, W_conv5, 1) + b_conv5)
 
-s = h_conv5.get_shape().as_list()
+keep_prob = tf.placeholder(tf.float32)
+dropout5 = tf.nn.dropout(h_conv5, keep_prob)
+
+s = dropout5.get_shape().as_list()
 flattened_length = s[1] * s[2] * s[3]
 
 #FCL 1
@@ -59,7 +69,6 @@ b_fc1 = bias_variable([1164])
 h_conv5_flat = tf.reshape(h_conv5, [-1, flattened_length])
 h_fc1 = tf.nn.relu(tf.matmul(h_conv5_flat, W_fc1) + b_fc1)
 
-keep_prob = tf.placeholder(tf.float32)
 h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
 #FCL 2
