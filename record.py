@@ -2,6 +2,7 @@
 
 import numpy as np
 import os
+import sys
 import shutil
 import wx
 import matplotlib
@@ -39,6 +40,17 @@ class MainWindow(wx.Frame):
 
         self.recording = False
         self.t = 0
+
+        # recording offset with command line arguments
+        if len(sys.argv) == 2:
+            self.offset_x = 0
+            self.offset_y = int(sys.argv[1])
+        elif len(sys.argv) > 2:
+            self.offset_x = int(sys.argv[1])
+            self.offset_y = int(sys.argv[2])
+        else:
+            self.offset_x = 0
+            self.offset_y = 0
 
 
     def create_main_panel(self):
@@ -89,7 +101,7 @@ class MainWindow(wx.Frame):
 
     def on_timer(self, event):
         self.poll()
-        print(self.controller_data)        
+        #print(self.controller_data)        
 
         # stop drawing if recording to avoid slow downs
         if self.recording == False:
@@ -108,7 +120,7 @@ class MainWindow(wx.Frame):
         screen = wx.ScreenDC()
         bmp = wx.Bitmap(Screenshot.SRC_W, Screenshot.SRC_H)
         mem = wx.MemoryDC(bmp)
-        mem.Blit(0, 0, Screenshot.SRC_W, Screenshot.SRC_H, screen, Screenshot.OFFSET_X, Screenshot.OFFSET_Y)
+        mem.Blit(-self.offset_x, -self.offset_y, Screenshot.SRC_W + self.offset_x, Screenshot.SRC_H + self.offset_y, screen, Screenshot.OFFSET_X, Screenshot.OFFSET_Y)
         return bmp
 
     def update_plot(self):

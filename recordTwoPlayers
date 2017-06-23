@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+echo "---------------------------"
+echo "Please plug in ONLY controller for PLAYER 1"
+read -n1 -r -p "Press any key to continue..."
+python record.py & disown
+
+echo "Please plug in controller for PLAYER 2"
+read -n1 -r -p "Press any key to continue..."
+python record.py 0 240 & disown
+
+echo "Starting MarioKart64..."
+~/.bin/playmario
