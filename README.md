@@ -24,6 +24,10 @@ Dependencies
 * `python` and `pip` then run `pip install -r requirements.txt`
 * `mupen64plus` (install via apt-get)
 
+Installation
+------------
+* [install guide](https://github.com/emomicrowave/TensorKart/blob/master/docs/DOCS.md)
+* [usage documentation](https://github.com/emomicrowave/TensorKart/blob/master/docs/PYDATA.md)
 
 Recording Samples
 -----------------
